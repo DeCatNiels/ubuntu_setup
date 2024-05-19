@@ -72,7 +72,6 @@ alias c='clear'
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init zsh)"
-eval $(ssh-agent)
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

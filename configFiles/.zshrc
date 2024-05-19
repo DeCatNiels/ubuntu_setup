@@ -76,3 +76,11 @@ eval "$(zoxide init zsh)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# My functions
+typeset -U fpath
+my_functions=$HOME/my_functions
+if [[ -z ${fpath[(r)$my_functions]} ]] ; then
+    fpath=($my_functions $fpath)
+    autoload -Uz ${my_functions}/*(:t)
+fi

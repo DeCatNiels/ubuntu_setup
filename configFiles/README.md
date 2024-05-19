@@ -24,11 +24,11 @@ sudo apt-get install stow
 
 ## Installation
 
-First, check out this repo and navigate to the dotFile folder
+First, check out this repo and navigate to the configFiles folder
 
 ```
 $ git git@github.com:DeCatNiels/ubuntu_setup.git
-$ cd ubuntu_setup/dotFiles
+$ cd ubuntu_setup/configFiles
 ```
 
 then use GNU stow to create symlinks

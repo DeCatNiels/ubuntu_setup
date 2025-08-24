@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+script_dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+mono_dir=$HOME/virto/vs360_monorepo
+git clone git@bitbucket.org:virtuosolar/vs360_monorepo.git $HOME/virto/vs360_monorepo
+cd $mono_dir
+git config --local user.email "niels.decat@virto.solar"
+git config --local user.name "Niels De Cat"
+ls -lah
+node_version=$(jq -r '.engines.node | ltrimstr("^")' package.json)
+pnpm_version=$(jq -r '.engines.pnpm | ltrimstr("^")' package.json)
+echo "$node_version"
+
+# this part is needed to use nvm in this script since bashrc is not soured yet.
+# bashrc can't be sourced since this not interactive 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm install $node_version
+nvm use $node_version
+
+npm i -g "pnpm@$pnpm_version"
+pnpm i 
+
+mkdir $mono_dir/personal
+cp -r $script_dir/../assets/syncPOD/ $mono_dir/personal
+cp -r $script_dir/../assets/worktree/ $mono_dir/personal

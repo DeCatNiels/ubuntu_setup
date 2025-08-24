@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-    echo "First argument should be email, second should be an identifier for the usage, third should be an existing subfolder of .ssh to store the keys"
-    return
-fi
-
-ssh-keygen -t ecdsa -b 521 -C "$1_$2_$(date +"%d.%m.%Y")" -f ~/.ssh/$3/$3_$(date +"%Y")_$2_ecdsa_512

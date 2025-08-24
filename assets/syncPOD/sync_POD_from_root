@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+dry='0'
+subtree=''
+
+while [[ $# > 0 ]]; do
+    if [[ $1 == "--dry" ]]; then
+        dry="1"
+    else
+        subtree="$1"
+    fi
+    shift
+done
+
+log() {
+    if [[ $dry == "1" ]]; then
+        echo "[DRY_RUN]: $@"
+    else
+        echo "$@"
+    fi
+}
+
+execute() {
+    log "execture $@"
+    if [[ $dry == "1" ]]; then
+        return
+    fi
+    "$@"
+}
+
+# Get the root worktree path
+ROOT_WORKTREE=$(git rev-parse --show-toplevel)
+
+# Find all "packages/**/volumes/keys/auth" directories in the root worktree **only**
+DIRS_TO_COPY=$(find "$ROOT_WORKTREE/packages" -type d -path "*/volumes/keys/auth" 2>/dev/null)
+
+# Ensure at least one directory was found
+if [ -z "$DIRS_TO_COPY" ]; then
+  log "No 'packages/**/volumes/keys/auth' directories found in the root worktree."
+  exit 1
+fi
+
+# Iterate over all worktrees (excluding the root worktree)
+git worktree list | awk 'NR>1 {print $1}' | while read -r worktree; do
+  
+  worktree_baseName="$(basename $worktree)"
+  if [ $subtree != '' ] && [ $subtree != $worktree_baseName ]; then
+    continue
+  fi
+
+  # Ensure it's a subdirectory of the root worktree
+  if [[ "$worktree" =~ ^"$ROOT_WORKTREE"/.+ ]]; then
+    log "Copying 'packages/**/volumes/keys/auth' directories to $worktree..."
+
+    # Copy each found directory to the corresponding location in the worktree
+    for dir in $DIRS_TO_COPY; do
+      RELATIVE_PATH="${dir#$ROOT_WORKTREE/}"  # Get the relative path
+      DEST_DIR="$worktree/$RELATIVE_PATH"
+
+      execute mkdir -p "$DEST_DIR"  # Ensure the destination exists
+      execute rsync -av --delete "$dir/" "$DEST_DIR/"
+    done
+  fi
+done
+
+log "Done!"
+
+

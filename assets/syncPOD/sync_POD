@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd $HOME/virto/vs360_monorepo
+echo "------ sync Proof of devices from subtrees ------"
+./personal/syncPOD/sync_POD_from_subtrees $@
+echo "------ sync Proof of devices from root ------"
+./personal/syncPOD/sync_POD_from_root $@

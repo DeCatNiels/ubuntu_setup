@@ -2,7 +2,7 @@
 FROM ubuntu:latest
 
 # Install sudo for testing container to mimic actual system
-RUN apt-get update && apt-get install -y sudo openssh-client
+RUN apt-get update && apt-get install -y sudo openssh-client git
 
 # Add the 'developer' user and set permisions
 RUN useradd -m -s /bin/bash developer

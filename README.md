@@ -16,7 +16,7 @@ Before cloning this repository, consider testing the setup process in a developm
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/ubuntu_setup.git
+   git clone https://github.com/DeCatNiels/ubuntu_setup.git
    ```
 2. Follow the instructions in the setup scripts to configure your system.
 

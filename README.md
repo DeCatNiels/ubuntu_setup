@@ -12,6 +12,15 @@ Before cloning this repository, consider testing the setup process in a developm
 - Step-by-step configuration instructions
 - Fast onboarding for new machines
 
+## Requirements
+
+The following packages should be installed to run everything in this repo.
+
+- sudo
+- openssh-client
+- git
+- curl
+
 ## Usage
 
 1. Clone this repository:
